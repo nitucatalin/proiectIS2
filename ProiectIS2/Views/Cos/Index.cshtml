@@ -1,0 +1,57 @@
+@model List<ProiectIS2.Models.Produs>
+
+@{
+    ViewData["Title"] = "Coș de cumpărături";
+}
+
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-header bg-dark text-white py-3">
+            <h3 class="mb-0"><i class="fas fa-shopping-cart"></i> Coșul tău</h3>
+        </div>
+        <div class="card-body">
+            @if (Model == null || !Model.Any())
+            {
+                <div class="text-center py-5">
+                    <h4>Coșul tău este gol.</h4>
+                    <a asp-controller="Produse" asp-action="Index" class="btn btn-primary mt-3">Înapoi la Meniu</a>
+                </div>
+            }
+            else
+            {
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Produs</th>
+                            <th class="text-end">Preț</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="py-3">@item.Nume</td>
+                                <td class="text-end py-3">@item.Pret RON</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr class="table-secondary">
+                            <td class="fw-bold h4">TOTAL</td>
+                            <td class="text-end fw-bold h4">@ViewBag.Total RON</td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <div class="d-flex justify-content-between mt-4">
+                    <a asp-controller="Produse" asp-action="Index" class="btn btn-outline-secondary">
+                        <i class="fas fa-plus"></i> Mai adaugă produse
+                    </a>
+                    <a asp-action="Checkout" class="btn btn-success btn-lg px-5 shadow">
+                        Mergi la Plată <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>

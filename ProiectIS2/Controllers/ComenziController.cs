@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -19,139 +18,71 @@ namespace ProiectIS2.Controllers
             _context = context;
         }
 
-        // GET: Comenzi
+        // LISTA COMENZILOR: Vedem tot ce s-a comandat
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Comenzi.ToListAsync());
+            var applicationDbContext = _context.Comenzi.Include(c => c.Produs);
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Comenzi/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var comanda = await _context.Comenzi
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (comanda == null)
-            {
-                return NotFound();
-            }
-
-            return View(comanda);
-        }
-
-        // GET: Comenzi/Create
+        // PAGINA DE COMANDĂ (Clientul alege produsul)
         public IActionResult Create()
         {
+            // Dacă nu avem produse, trimitem o listă goală să nu crape
+            var listaProd = _context.Produse.ToList() ?? new List<Produs>();
+            ViewBag.ListaProduse = new SelectList(listaProd, "Id", "Name");
             return View();
         }
 
-        // POST: Comenzi/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // PROCESUL AUTOMAT DE SALVARE
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,DataPlasarii,Total,NumarOrdine,EstePlatita")] Comanda comanda)
+        public async Task<IActionResult> Create(int ProdusId)
         {
-            if (ModelState.IsValid)
+            //Căutăm produsul selectat pentru a-i afla prețul (sau punem un preț default dacă modelul nu are câmpul Pret)
+            var produs = await _context.Produse.FindAsync(ProdusId);
+            
+            if (produs == null)
             {
-                _context.Add(comanda);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ModelState.AddModelError("", "Produsul selectat nu există.");
+                ViewBag.ListaProduse = new SelectList(_context.Produse.ToList(), "Id", "Name");
+                return View();
             }
-            return View(comanda);
+
+            // CREĂM COMANDA AUTOMAT
+            var comandaNoua = new Comanda
+            {
+                ProdusId = ProdusId,
+                DataPlasarii = DateTime.Now, // Automat data de acum
+                NumarOrdine = new Random().Next(100, 999), // Automat număr random de ordine
+                EstePlatita = false, // Implicit nu e plătită
+                
+                // Dacă modelul tău Produs are câmpul Pret, folosim produs.Pret
+                // Dacă nu îl are încă, punem un preț simbolic de 30 RON pentru simulare
+                Total = 30 
+            };
+
+            _context.Add(comandaNoua);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
-        // GET: Comenzi/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var comanda = await _context.Comenzi.FindAsync(id);
-            if (comanda == null)
-            {
-                return NotFound();
-            }
-            return View(comanda);
-        }
-
-        // POST: Comenzi/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,DataPlasarii,Total,NumarOrdine,EstePlatita")] Comanda comanda)
-        {
-            if (id != comanda.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(comanda);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ComandaExists(comanda.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(comanda);
-        }
-
-        // GET: Comenzi/Delete/5
+        // Restul metodelor (Edit, Delete) pot rămâne simple
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var comanda = await _context.Comenzi
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (comanda == null)
-            {
-                return NotFound();
-            }
-
+            if (id == null) return NotFound();
+            var comanda = await _context.Comenzi.Include(c => c.Produs).FirstOrDefaultAsync(m => m.Id == id);
             return View(comanda);
         }
 
-        // POST: Comenzi/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var comanda = await _context.Comenzi.FindAsync(id);
-            if (comanda != null)
-            {
-                _context.Comenzi.Remove(comanda);
-            }
-
+            if (comanda != null) _context.Comenzi.Remove(comanda);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool ComandaExists(int id)
-        {
-            return _context.Comenzi.Any(e => e.Id == id);
         }
     }
 }

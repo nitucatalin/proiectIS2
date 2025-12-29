@@ -1,0 +1,57 @@
+@{
+    ViewData["Title"] = "Finalizare Comandă";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white text-center py-4">
+                    <h2 class="mb-0">Finalizare Comandă</h2>
+                </div>
+                <div class="card-body p-5">
+                    <div class="alert alert-info text-center mb-4">
+                        <h4 class="mb-0">Sumă totală de plată: <strong>@ViewBag.Total RON</strong></h4>
+                    </div>
+
+                    <form asp-action="Finalizeaza" method="post">
+                        <h5 class="mb-4 fw-bold"><i class="fas fa-wallet"></i> Selectați metoda de plată:</h5>
+
+                        <div class="card mb-3 border-primary">
+                            <div class="card-body">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="metodaPlata" value="Card" id="plataCard" required checked>
+                                    <label class="form-check-label h5 mb-0" for="plataCard">
+                                        💳 Plată Online cu Cardul
+                                    </label>
+                                    <p class="text-muted small mb-0 ml-4">Vei fi marcat automat ca "Plătit" în sistem.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="metodaPlata" value="Livrare" id="plataLivrare">
+                                    <label class="form-check-label h5 mb-0" for="plataLivrare">
+                                        🚚 Plată la Livrare (Cash/Ramburs)
+                                    </label>
+                                    <p class="text-muted small mb-0 ml-4">Vei plăti curierului când ajunge mâncarea.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-xl py-3 fw-bold shadow">
+                                PLASEAZĂ COMANDA <i class="fas fa-check-circle"></i>
+                            </button>
+                            <a asp-action="Index" class="btn btn-link text-secondary text-center">Înapoi la coș</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

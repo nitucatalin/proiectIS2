@@ -1,8 +1,99 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Dashboard NVM";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="p-5 mb-4 bg-light rounded-3 shadow-sm border-0" style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
+    <div class="container-fluid py-5 text-center">
+        <h1 class="display-4 fw-bold text-dark">NVM Ordering System</h1>
+        <p class="fs-4 text-muted">Management complet pentru restaurantele și comenzile tale, într-un singur loc.</p>
+        <hr class="my-4" style="width: 100px; margin: auto; border-top: 3px solid #0d6efd;">
+    </div>
 </div>
+
+<div class="container">
+    <div class="row text-center mb-5">
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm bg-primary text-white h-100">
+                <div class="card-body">
+                    <i class="fas fa-shopping-basket fa-3x mb-3"></i>
+                    <h5 class="card-title">Comenzi Totale</h5>
+                    <h2 class="display-6 fw-bold">@ViewBag.TotalComenzi</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm bg-success text-white h-100">
+                <div class="card-body">
+                    <i class="fas fa-money-bill-wave fa-3x mb-3"></i>
+                    <h5 class="card-title">Venit Total</h5>
+                    <h2 class="display-6 fw-bold">@ViewBag.VenitTotal lei</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm bg-info text-white h-100">
+                <div class="card-body">
+                    <i class="fas fa-utensils fa-3x mb-3"></i>
+                    <h5 class="card-title">Restaurante</h5>
+                    <h2 class="display-6 fw-bold">@ViewBag.NrRestaurante</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm bg-warning text-dark h-100">
+                <div class="card-body">
+                    <i class="fas fa-hamburger fa-3x mb-3"></i>
+                    <h5 class="card-title">Produse în Meniu</h5>
+                    <h2 class="display-6 fw-bold">@ViewBag.NrProduse</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="mb-4 fw-bold text-center">Acces Rapid</h3>
+    <div class="row g-4 justify-content-center">
+        <div class="col-md-4">
+            <a asp-controller="Produse" asp-action="Index" class="text-decoration-none text-dark">
+                <div class="card h-100 border-0 shadow-sm hover-shadow transition-all p-3 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-list-ul fa-2x text-primary mb-3"></i>
+                        <h5>Vezi Meniul</h5>
+                        <p class="text-muted small">Adaugă produse în coș și simulează comenzi.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a asp-controller="Comenzi" asp-action="Index" class="text-decoration-none text-dark">
+                <div class="card h-100 border-0 shadow-sm hover-shadow transition-all p-3 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-history fa-2x text-success mb-3"></i>
+                        <h5>Istoric Comenzi</h5>
+                        <p class="text-muted small">Monitorizează statusul plăților și livrărilor.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a asp-controller="Restaurante" asp-action="Index" class="text-decoration-none text-dark">
+                <div class="card h-100 border-0 shadow-sm hover-shadow transition-all p-3 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-store fa-2x text-info mb-3"></i>
+                        <h5>Gestiune Restaurante</h5>
+                        <p class="text-muted small">Adaugă sau editează locațiile tale.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .hover-shadow:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+        transition: all 0.3s ease;
+    }
+</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">

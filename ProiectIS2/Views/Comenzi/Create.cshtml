@@ -1,48 +1,40 @@
 @model ProiectIS2.Models.Comanda
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Plasează Comanda";
 }
 
-<h1>Create</h1>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white text-center py-4">
+                    <h2 class="mb-0">Ce doriți să comandați?</h2>
+                </div>
+                <div class="card-body p-5 text-center">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-<h4>Comanda</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="DataPlasarii" class="control-label"></label>
-                <input asp-for="DataPlasarii" class="form-control" />
-                <span asp-validation-for="DataPlasarii" class="text-danger"></span>
+                        <div class="form-group mb-4">
+                            <label class="form-label h5 mb-3">Alegeți din meniul nostru:</label>
+                            <select name="ProdusId" class="form-select form-select-lg border-primary" asp-items="ViewBag.ListaProduse" required>
+                                <option value="">-- Selectați un produs --</option>
+                            </select>
+                        </div>
+
+                        <p class="text-muted small">
+                            * Data, numărul de ordine și totalul vor fi generate automat la confirmare.
+                        </p>
+
+                        <div class="d-grid gap-2 mt-5">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="fas fa-shopping-cart"></i> Finalizează Comanda
+                            </button>
+                            <a asp-action="Index" class="btn btn-link text-secondary">Vezi toate comenzile</a>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Total" class="control-label"></label>
-                <input asp-for="Total" class="form-control" />
-                <span asp-validation-for="Total" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NumarOrdine" class="control-label"></label>
-                <input asp-for="NumarOrdine" class="form-control" />
-                <span asp-validation-for="NumarOrdine" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="EstePlatita" /> @Html.DisplayNameFor(model => model.EstePlatita)
-                </label>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

@@ -18,7 +18,10 @@ namespace ProiectIS2.Controllers
         {
             _context = context;
         }
-
+        
+        [Route("~/Restaurante")] 
+        [Route("Index")]
+    
         // GET: Restaurants
         public async Task<IActionResult> Index()
         {
