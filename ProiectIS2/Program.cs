@@ -3,6 +3,7 @@ using ProiectIS2.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // SERVICII 
 
 builder.Services.AddControllersWithViews()
@@ -22,7 +23,21 @@ builder.Services.AddSession(options => {
 });
 
 var app = builder.Build();
-
+// Configurare baza de date >> DOCKER + SEED
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try 
+    {
+        // Apelăm clasa SeedData care face și EnsureCreated() și adaugă datele
+        SeedData.Initialize(services);
+        Console.WriteLine("------> Baza de date a fost verificata/populata cu succes!");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("------> EROARE la popularea bazei de date: " + ex.Message);
+    }
+}
 //MIDDLEWARE
 
 if (!app.Environment.IsDevelopment())

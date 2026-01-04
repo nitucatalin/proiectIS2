@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  proiectis2:
+    image: proiectis2
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./ProiectIS2/database:/app/database # Aici mapăm baza de date
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
