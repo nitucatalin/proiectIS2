@@ -17,7 +17,7 @@ namespace ProiectIS2.Data
                     return; 
                 }
 
-                // Creăm restaurantele doar cu proprietățile pe care le ai (Nume)
+                // Creăm restaurantele
                 var r1 = new Restaurant { Name = "Shaormeria NVM" };
                 var r2 = new Restaurant { Name = "Pasta Delight" };
                 var r3 = new Restaurant { Name = "Sushi Star" };

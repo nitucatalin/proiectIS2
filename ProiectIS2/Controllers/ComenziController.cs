@@ -57,8 +57,7 @@ namespace ProiectIS2.Controllers
                 NumarOrdine = new Random().Next(100, 999), // Automat număr random de ordine
                 EstePlatita = false, // Implicit nu e plătită
                 
-                // Dacă modelul tău Produs are câmpul Pret, folosim produs.Pret
-                // Dacă nu îl are încă, punem un preț simbolic de 30 RON pentru simulare
+    
                 Total = 30 
             };
 
@@ -67,7 +66,7 @@ namespace ProiectIS2.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // Restul metodelor (Edit, Delete) pot rămâne simple
+        
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null) return NotFound();
