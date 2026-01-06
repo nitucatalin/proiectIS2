@@ -25,7 +25,7 @@ Acesta este un sistem de gestiune si plasare a comenzilor pentru restaurante, co
 
 ---
 
-## Instalare si Configurare (macOS)
+## Instalare si Configurare
 
 ### 1. Prerequisites
 - .NET SDK (8.0 sau mai nou)
@@ -48,4 +48,14 @@ dotnet build
 
 # Lansarea aplicatiei
 dotnet run
+```
+## Rulare cu docker
+### 1. Prerequisites
+- Docker Desktop instalat si functional.
+
+### 2. Lansarea aplicatiei
+Din folderul root al proiectului se executa:
+
+```bash
+docker-compose up --build
 ```
